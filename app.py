@@ -53,7 +53,7 @@ def processRequest(req):
             }
     else:
         return {
-            "speech": "I have nothing to say",
+            "speech": req.get("result").get("role"),
             "displayText": "idk",
             # "data": data,
             # "contextOut": [],
