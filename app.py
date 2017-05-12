@@ -67,7 +67,7 @@ def processRequest(req, sbf):
             }
     else:
         return {
-            "speech": str(sbf.ix[0,1]),
+            "speech": str(sbf.ix[1,1]),
             "displayText": "idk",
             # "data": data,
             # "contextOut": [],
