@@ -36,17 +36,7 @@ def webhook():
 
 
 def processRequest(req):
-    if req.get("result").get("action") == "yahooWeatherForecast":
-        baseurl = "https://query.yahooapis.com/v1/public/yql?"
-        yql_query = makeYqlQuery(req)
-        if yql_query is None:
-            return {}
-        yql_url = baseurl + urlencode({'q': yql_query}) + "&format=json"
-        result = urlopen(yql_url).read()
-        data = json.loads(result)
-        res = makeWebhookResult(data)
-        return res
-    elif req.get("result").get("action") == "jibberish":
+    if req.get("result").get("action") == "jibberish":
         return {
             "speech": "you typed in jibberish this make it through",
             "displayText": "you typed in jibberish this make it through",
@@ -54,6 +44,14 @@ def processRequest(req):
             # "contextOut": [],
             "source": "apiai-weather-webhook-sample"
             }
+    elif: req.get("result").get("action") == "explainRole":
+        return {
+            "speech": "Great! You want to be a sales manager. This role is expected to grow by 5% between 2016 to 2026 with a mean Salary of $130,400",
+            "displayText": "Great! You want to be a sales manager. This role is expected to grow by 5% between 2016 to 2026 with a mean Salary of $130,400",
+            # "data": data,
+            # "contextOut": [],
+            "source": "apiai-weather-webhook-sample"
+            }    
     else:
         return {
             "speech": "I have nothing to say",
