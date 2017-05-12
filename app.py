@@ -35,18 +35,18 @@ def webhook():
     return r
 
 def processRequest(req):
-    if req.get("result").get("action") == "jibberish":
+    if req.get("result").get("role") == "Salesman":
         return {
-            "speech": "you typed in jibberish this make it through",
+            "speech": "Top Skills: General Sales, General Sales Practices, Merchandising",
             "displayText": "you typed in jibberish this make it through",
             # "data": data,
             # "contextOut": [],
             "source": "apiai-weather-webhook-sample"
             }
-    if req.get("result").get("action") == "explainrole":
+    if req.get("result").get("role") == "Nurse Practitioner":
         return {
-            "speech": "Top Skills: General Sales, General Sales Practices, Merchandising",
-            "displayText": "Top Skills: General Sales, General Sales Practices, Merchandising",
+            "speech": "Top Skills: Basic Patient Care, Medical Support, General Medicine",
+            "displayText": "Top Skills: Basic Patient Care, Medical Support, General Medicine",
             # "data": data,
             # "contextOut": [],
             "source": "apiai-weather-webhook-sample"
