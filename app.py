@@ -15,9 +15,23 @@ from flask import Flask
 from flask import request
 from flask import make_response
 
+import matplotlib.pyplot as plt
+import pandas as pd  # this is how I usually import pandas
+import sys  # only needed to determine Python version number
+import matplotlib  # only needed to determine Matplotlib version number
+import nltk
+from azureml import Workspace
+
 # Flask app should start in global layout
 app = Flask(__name__)
 
+ws = Workspace(
+    workspace_id='84e33ccc8d6f4d5b929e023b32ff3d22',
+    authorization_token='f861df67af474dac8cff8ff8b0fd01fa',
+    endpoint='https://studioapi.azureml.net'
+)
+sum_bach = ws.datasets['sum_bach.csv']
+sum_bach_frame = sum_bach.to_dataframe()
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
@@ -26,7 +40,7 @@ def webhook():
     print("Request:")
     print(json.dumps(req, indent=4))
 
-    res = processRequest(req)
+    res = processRequest(req, sum_batch_frame)
 
     res = json.dumps(res, indent=4)
     # print(res)
@@ -34,7 +48,7 @@ def webhook():
     r.headers['Content-Type'] = 'application/json'
     return r
 
-def processRequest(req):
+def processRequest(req, sbf):
     if req.get("result").get("parameters").get("role") == "Salesman":
         return {
             "speech": "Top Skills: General Sales, General Sales Practices, Merchandising",
@@ -53,7 +67,7 @@ def processRequest(req):
             }
     else:
         return {
-            "speech": "Please ask a different question.",
+            "speech": str(sbf.ix[0,1]),
             "displayText": "idk",
             # "data": data,
             # "contextOut": [],
