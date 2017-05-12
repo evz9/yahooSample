@@ -31,16 +31,18 @@ ws = Workspace(
     endpoint='https://studioapi.azureml.net'
 )
 
+
+sum_bach = ws.datasets['sum_bach.csv']
+sum_bach_frame = sum_bach.to_dataframe()
+
 @app.route('/webhook', methods=['POST'])
 def webhook():
     req = request.get_json(silent=True, force=True)
 
     print("Request:")
     print(json.dumps(req, indent=4))
-    sum_bach = ws.datasets['sum_bach.csv']
-    sum_bach_frame = sum_bach.to_dataframe()
 
-    res = processRequest(req, sum_batch_frame)
+    res = processRequest(req)
 
     res = json.dumps(res, indent=4)
     # print(res)
@@ -48,7 +50,7 @@ def webhook():
     r.headers['Content-Type'] = 'application/json'
     return r
 
-def processRequest(req, sbf):
+def processRequest(req):
     if req.get("result").get("parameters").get("role") == "Salesman":
         return {
             "speech": "Top Skills: General Sales, General Sales Practices, Merchandising",
