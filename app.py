@@ -34,12 +34,19 @@ def webhook():
     r.headers['Content-Type'] = 'application/json'
     return r
 
-
 def processRequest(req):
     if req.get("result").get("action") == "jibberish":
         return {
             "speech": "you typed in jibberish this make it through",
             "displayText": "you typed in jibberish this make it through",
+            # "data": data,
+            # "contextOut": [],
+            "source": "apiai-weather-webhook-sample"
+            }
+    if req.get("result").get("action") == "explainrole":
+        return {
+            "speech": "Top Skills: General Sales, General Sales Practices, Merchandising",
+            "displayText": "Top Skills: General Sales, General Sales Practices, Merchandising",
             # "data": data,
             # "contextOut": [],
             "source": "apiai-weather-webhook-sample"
@@ -52,55 +59,6 @@ def processRequest(req):
             # "contextOut": [],
             "source": "apiai-weather-webhook-sample"
             }
-
-def makeYqlQuery(req):
-    result = req.get("result")
-    parameters = result.get("parameters")
-    city = parameters.get("geo-city")
-    if city is None:
-        return None
-
-    return "select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='" + city + "')"
-
-
-def makeWebhookResult(data):
-    query = data.get('query')
-    if query is None:
-        return {}
-
-    result = query.get('results')
-    if result is None:
-        return {}
-
-    channel = result.get('channel')
-    if channel is None:
-        return {}
-
-    item = channel.get('item')
-    location = channel.get('location')
-    units = channel.get('units')
-    if (location is None) or (item is None) or (units is None):
-        return {}
-
-    condition = item.get('condition')
-    if condition is None:
-        return {}
-
-    # print(json.dumps(item, indent=4))
-
-    speech = "Hoy en " + location.get('city') + ": " + condition.get('text') + \
-             ", el clima es " + condition.get('temp') + " " + units.get('temperature')
-
-    print("Response:")
-    print(speech)
-
-    return {
-        "speech": speech,
-        "displayText": speech,
-        # "data": data,
-        # "contextOut": [],
-        "source": "apiai-weather-webhook-sample"
-    }
 
 
 if __name__ == '__main__':
