@@ -30,8 +30,6 @@ ws = Workspace(
     authorization_token='f861df67af474dac8cff8ff8b0fd01fa',
     endpoint='https://studioapi.azureml.net'
 )
-sum_bach = ws.datasets['sum_bach.csv']
-sum_bach_frame = sum_bach.to_dataframe()
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
@@ -39,6 +37,8 @@ def webhook():
 
     print("Request:")
     print(json.dumps(req, indent=4))
+    sum_bach = ws.datasets['sum_bach.csv']
+    sum_bach_frame = sum_bach.to_dataframe()
 
     res = processRequest(req, sum_batch_frame)
 
