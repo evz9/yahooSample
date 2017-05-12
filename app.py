@@ -30,8 +30,8 @@ def webhook():
     r = {
         "speech": "Please let this work",
         "displayText": "Please let this work",
-        # "data": data,
-        # "contextOut": [],
+        "data": "data",
+        "contextOut": [],
         "source": "apiai-weather-webhook-sample"
     }
     r.headers['Content-Type'] = 'application/json'
