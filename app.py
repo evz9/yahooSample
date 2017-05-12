@@ -46,7 +46,7 @@ def processRequest(req):
         data = json.loads(result)
         res = makeWebhookResult(data)
         return res
-    else:
+    elif req.get("result").get("action") == "jibberish":
         return {
             "speech": "you typed in jibberish this make it through",
             "displayText": "you typed in jibberish this make it through",
@@ -54,7 +54,24 @@ def processRequest(req):
             # "contextOut": [],
             "source": "apiai-weather-webhook-sample"
             }
-
+    elif: req.get("result").get("action") == "explainRole":
+            speech = "Great! You want to be a sales manager.\n" +  \
+            "This role is expected to grow by 5% between 2016 to 2026 with a mean Salary of $130,400. Number of job postings: 248,372"
+        return {
+            "speech": speech,
+            "displayText": speech,
+            # "data": data,
+            # "contextOut": [],
+            "source": "apiai-weather-webhook-sample"
+            }
+    else:
+        return {
+            "speech": "I have nothing to say",
+            "displayText": "idk",
+            # "data": data,
+            # "contextOut": [],
+            "source": "apiai-weather-webhook-sample"
+            }
 
 def makeYqlQuery(req):
     result = req.get("result")
